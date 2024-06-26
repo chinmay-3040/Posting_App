@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 text-white">
+
+    <% if(!loggedin){ %>
+        <div class="w-full h-full p-10 text-white">
+            <a class="text-zinc-900 ml-3 my-3 p-2 bg-zinc-500 mt-2 rounded-lg hover:bg-blue-500" href="/login">Login</a>
+            <a class="text-zinc-900 ml-3 my-3 p-2 bg-zinc-500 mt-2 rounded-lg hover:bg-blue-500" href="/create">Register</a>
+        </div>
+    <%}else{%>
+        <div class="w-full h-full p-10 text-white flex" style="justify-content: space-between;">
+            
+            <a class="text-zinc-900  ml-3 p-2 bg-zinc-500 mt-2 rounded-lg hover:bg-blue-500" href="/profile">My Profile</a>
+            <h3 class="text-green-600 ml-3 p-2 mt-2 rounded-lg">Welcome <%= username %></h3>
+            <a class="text-zinc-900  ml-3 p-2 bg-zinc-500 mt-2 rounded-lg hover:bg-red-500" href="/logout">Logout</a>
+        </div>
+        
+    <%}%>
+    
+    
+    <h1 class="text-3xl m-3 p-2 text-center">Welcome to Mini posting app!!</h1>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 text-white">
+
+        <div class="w-full h-full p-10 text-white">
+            <a href="/" class="text-sm text-zinc-500 mt-3 hover:text-blue-500">back to home</a>
+            <p>Already a user? <a href="/login" class="text-sm text-blue-500">login</a></p>
+            
+
+            <div style="display:flex;justify-content:center;align-items: center;">
+                <form action="/create" method="post" style="display:flex;flex-direction: column; gap: 20px;">
+                    <h1 class="text-3xl tracking-tighter mb-3 ">Register</h1>
+                    <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="username" type="text" placeholder="username">
+                    <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="name" type="text" placeholder="name">
+                    <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="age" type="number" placeholder="age">
+
+                    <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="email" type="text" placeholder="email">
+                    <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="password" type="text" placeholder="password">
+                    
+                    <input class="px-5 py-2 bg-blue-500 rounded-lg ml-3" type="submit" value="Create user">
+                </form>
+            </div>
+        </div>
+</body>
+</html>
