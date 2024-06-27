@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken';
 const app = express();
 const port = process.env.PORT || 4005;
 
+import upload from './utils/multerconfig.js';
+
 
 
 // importing model,schema and mongoDB file
@@ -27,9 +29,12 @@ app.set('view engine' , 'ejs');
 
 
 app.get('/', async (req, res) => {
+
+    let posts = await Post.find().populate('user'); 
     if(!req.cookies.token){
         // console.log("Not logged in");
-        res.render("index", {loggedin:false});
+
+        res.render("index", {loggedin:false, posts:posts});
     }else{
         // console.log(req.cookies.token);
 
@@ -37,7 +42,7 @@ app.get('/', async (req, res) => {
         // console.log(data);
         let user = await User.findOne({email:data.email}); //use this data(i.e. email) to get username from database
         // console.log(user.username);
-        res.render("index", {loggedin:true, username:user.username});
+        res.render("index", {loggedin:true,user:user, posts:posts});
     }
     
     
@@ -133,7 +138,7 @@ app.post('/post', isLoggedIn, async (req, res) => {  // using the protected rout
         content:req.body.content,
     });
 
-    console.log(newpost);
+    // console.log(newpost);
 
     thisuser.posts.push(newpost._id); //adding this to the current users post array
     await thisuser.save();
@@ -157,7 +162,10 @@ app.get('/like/:id', isLoggedIn, async (req, res) => {  // using the protected r
      }
 
      await thispost.save();
-     res.redirect('/profile');
+     
+     // Use the Referer header to redirect to the previous page
+    const redirectUrl = req.get('Referer') || '/Profile';
+    res.redirect(redirectUrl);
 });
 
 app.get('/edit/:id', isLoggedIn, async (req, res) => {  // using the protected route (middleware) that is defined below
@@ -180,6 +188,16 @@ app.post('/edit/:id', isLoggedIn, async (req, res) => {  // using the protected 
     res.redirect('/profile');
 });
 
+app.get('/delete/:id', isLoggedIn, async (req, res) => {
+    let postid = req.params.id;
+    await Post.findOneAndDelete({ _id: postid });
+
+    // Use the Referer header to redirect to the previous page
+    const redirectUrl = req.get('Referer') || '/Profile';
+    res.redirect(redirectUrl);
+});
+
+
 //Creating protected route
 
 function isLoggedIn(req,res,next){
@@ -191,6 +209,18 @@ function isLoggedIn(req,res,next){
     }
     next();
 }
+
+app.get('/profile/upload', isLoggedIn, async (req, res) => {  // using the protected route (middleware) that is defined below
+    res.render('profileupload');
+});
+
+app.post('/upload', isLoggedIn, upload.single('image') , async (req, res) => {  // using the protected route (middleware) that is defined below
+    // console.log(req.file);
+    let user = await User.findOne({email:req.user.email});
+    user.profilepic = req.file.filename;
+    await user.save();
+    res.redirect('/profile');
+});
 
 
 

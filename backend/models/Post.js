@@ -8,6 +8,17 @@ const PostSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
+        get: (v) => {
+            const options = {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+            };
+            return v.toLocaleString('en-US', options);
+        },
     },
     content:{
         type:String,
