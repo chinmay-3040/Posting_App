@@ -17,6 +17,12 @@
                 
                 <form action="/login" method="post"  style="display:flex;flex-direction: column; gap: 20px;" >
                     <h1 class="text-3xl tracking-tighter mb-3 ">Login</h1>
+
+                    <% if (error) { %>
+                        <!-- This is where the error message will be displayed -->
+                        <div class="text-red-500"><%= error %></div>
+                    <% } %>
+                    
                     <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="email" type="text" placeholder="email">
                     <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="password" type="text" placeholder="password">
                     <input class="px-5 py-2 bg-blue-500 rounded-lg ml-3" type="submit" value="Login">

@@ -50,11 +50,15 @@ app.get('/', async (req, res) => {
 
 
 app.get('/create', (req, res) => {
-    res.render("Register");
+    res.render("Register",{error:""});
 });
 
 app.post('/create',  async (req, res) => {
     let {username,name,age,email,password} = req.body;
+
+    if (!email || !password || !age || !name || !username) {
+        return res.render('Register', { error: 'All fields are required' });
+    }
 
     //Check if user already registered
     let user = await User.findOne({email:req.body.email});
@@ -87,13 +91,20 @@ app.post('/create',  async (req, res) => {
 
 //login handling
 app.get('/login', (req, res) => {
-    res.render("Login");
+    res.render("Login",{error:""});
 });
 app.post('/login', async (req, res) => {
     //We can make user login immediately
+
+    //If not email not password, this code prevents server from crashing
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.render('login', { error: 'All fields are required' });
+    }
+
     let user = await User.findOne({email:req.body.email});
     if(!user){
-        return res.status(500).send("Something went Wrong here"); //No such email exist
+        return res.render('login', { error: 'Something went wrong here' }); //No such email exist
     }else{
         let storedPassword = user.password;
         let givenPassword = req.body.password;
@@ -104,7 +115,7 @@ app.post('/login', async (req, res) => {
                 res.cookie("token",token);
                 res.redirect("/");
             }else{
-                res.send("Something went Wrong thre") // Password is wrong
+                return res.render('login', { error: 'Something went wrong there' }); // Password is wrong
             }
         });
         

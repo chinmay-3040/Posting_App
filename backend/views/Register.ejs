@@ -17,6 +17,11 @@
             <div style="display:flex;justify-content:center;align-items: center;">
                 <form action="/create" method="post" style="display:flex;flex-direction: column; gap: 20px;">
                     <h1 class="text-3xl tracking-tighter mb-3 ">Register</h1>
+
+                    <% if (error) { %>
+                        <div class="text-red-500"><%= error %></div>
+                    <% } %>
+
                     <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="username" type="text" placeholder="username">
                     <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="name" type="text" placeholder="name">
                     <input class="px-5 py-2 bg-transparent text-white border-2 border-zinc-800 rounded-lg outline:none" name="age" type="number" placeholder="age">
